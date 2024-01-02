@@ -1,14 +1,13 @@
 <div align="center">
-    <h1>webcamGPT</h1>
-    <p>chat with video stream</p>
+    <h1>Visionairy</h1>
+    <p>Auditory aid for the visually impaired</p>
 </div>
 
-https://github.com/roboflow/webcamGPT/assets/26109316/9ffe4607-f111-4048-9ce4-3e105afdfda0
 
 ## 👋 hello
 
-webcamGPT is a set of tools and examples showing how to use the OpenAI vision API to 
-run inference on images, video files and webcam streams.
+We use the OpenAI vision API to 
+run inference on images, video files, and webcam streams to assist in the visually impaired using our physical device.
 
 🚧 keep in mind that the repository is still under construction
 
