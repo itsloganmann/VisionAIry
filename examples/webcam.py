@@ -1,0 +1,85 @@
+import os
+import cv2
+import uuid
+import gradio as gr
+import numpy as np
+import webbrowser
+import webcamgpt
+from gtts import gTTS
+import speech_recognition as sr
+from pydub import AudioSegment
+
+MARKDOWN = """
+# Webcam with GPT
+
+Visual analysis of live webcam footage
+"""
+
+connector = webcamgpt.OpanAIConnector()
+duration_in_seconds=0
+
+def save_image_to_drive(image: np.ndarray) -> str:
+    image_filename = f"{uuid.uuid4()}.jpeg"
+    image_directory = "data"
+    os.makedirs(image_directory, exist_ok=True)
+    image_path = os.path.join(image_directory, image_filename)
+    cv2.imwrite(image_path, image)
+    return image_path
+
+def speech_to_text():
+    recognizer = sr.Recognizer()
+    with sr.Microphone() as source:
+        recognizer.adjust_for_ambient_noise(source)
+        print("Say something...")
+        audio = recognizer.listen(source, timeout=5)
+    try:
+        return recognizer.recognize_google(audio)
+    except sr.UnknownValueError:
+        return "Could not understand audio"
+    except sr.RequestError as e:
+        return f"Error with the speech recognition service; {e}"
+
+def respond(image: np.ndarray, prompt: str, chat_history):
+    image = np.fliplr(image)
+    image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
+    image_path = save_image_to_drive(image)
+
+    # Add speech-to-text for the prompt
+    speech_input = speech_to_text()
+    chat_history.append(((image_path,), None))
+    chat_history.append((speech_input, None))
+
+    response = connector.simple_prompt(image=image, prompt=speech_input)
+    chat_history.append((speech_input, response))
+
+    # Initialize gTTS with the text to convert
+    speech = gTTS(response, lang='en', slow=False)
+
+    # Save the audio file to a temporary file
+    speech_file = 'speech.mp3'
+    speech.save(speech_file)
+    
+
+    audio = AudioSegment.from_file(speech_file)
+    global duration_in_seconds
+    duration_in_seconds = len(audio) / 1000
+    print(f"Speech duration: {duration_in_seconds} seconds")
+
+
+    # Play the audio file
+    webbrowser.open(speech_file)
+
+    return "", chat_history
+
+with gr.Blocks() as demo:
+    gr.Markdown(MARKDOWN)
+    with gr.Row():
+        webcam = gr.Image(source="webcam", streaming=True)
+        with gr.Column():
+            chatbot = gr.Chatbot(height=500)
+            message = gr.Textbox()
+            clear_button = gr.ClearButton([message, chatbot])
+    
+    message.submit(respond, [webcam, message, chatbot], [message, chatbot])
+
+demo.launch(debug=False, show_error=True)
