@@ -4,3 +4,4 @@ opencv-python
 numpy
 requests
 gradio==3.50.2
+libgl1-mesa-glx
