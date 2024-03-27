@@ -14,7 +14,7 @@ run inference on images, video files, and webcam streams to assist in the visual
 ## 💻 Install
 
 ```bash
-pip install webcamgpt
+pip install visionairy
 ```
 
 ## 🔑 Keys
