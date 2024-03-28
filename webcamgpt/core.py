@@ -29,4 +29,4 @@ class OpanAIConnector:
 
             except KeyError:
                 if attempt == max_retries - 1:
-                    return "retry your qeustion retard"
+                    return "retry your qeustion "
