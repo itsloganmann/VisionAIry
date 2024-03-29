@@ -3,7 +3,7 @@
     <p>Auditory aid for the visually impaired</p>
 </div>
 
-These docs are for the code side of Visionairy, physical documentation and CAD files for the case will be updated soon! Demo Videos: https://drive.google.com/drive/u/2/folders/1_E5NYc_lLohMYZkm3NRx72TlmqosSxUM
+These docs are for the code side of Visionairy, physical documentation and CAD files for the case will be updated soon! In-Person Trial Demo Videos: https://drive.google.com/drive/u/2/folders/1_E5NYc_lLohMYZkm3NRx72TlmqosSxUM
 ## 👋 hello
 
 We use the OpenAI vision API to 
