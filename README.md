@@ -1,5 +1,5 @@
 <div align="center">
-    <h1>Visionairy</h1>
+    <h1>VisionAIry</h1>
     <p>Auditory aid for the visually impaired</p>
 </div>
 
